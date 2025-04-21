@@ -13,7 +13,7 @@ function App() {
   return (
     <AuthProvider>
    
-        <Toaster position="top-right" richColors />
+        <Toaster position="top-center" richColors />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Layout />}>

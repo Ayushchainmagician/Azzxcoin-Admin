@@ -93,7 +93,7 @@ useEffect(() => {
       const res = await axios.get(
         `https://harvesthubai.com/api/admin/userlist?page=${page}&limit=10&search=${search}`
       );
-      console.log("this is response", res.data);
+      // console.log("this is response", res.data);
       if (page === 1) {
         setFilteredUsers(res.data.users);
       } else {
@@ -110,7 +110,7 @@ useEffect(() => {
 
   // Handle search input change
   const handleSearchChange = (e) => {
-    console.log("this is search")
+    // console.log("this is search")
     setSearch(e.target.value);
     setPage(1); // Reset to first page when searching
   };

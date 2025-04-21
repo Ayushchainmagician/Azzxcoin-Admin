@@ -92,16 +92,16 @@ const Layout = () => {
       path: '/users',
       icon: <Users className="h-5 w-5 mr-2" />,
     },
-    {
-      title: 'Withdrawals',
-      path: '/withdrawals',
-      icon: <Wallet className="h-5 w-5 mr-2" />,
-    },
-    {
-      title: 'Settings',
-      path: '/settings',
-      icon: <SettingsIcon className="h-5 w-5 mr-2" />,
-    },
+    // {
+    //   title: 'Withdrawals',
+    //   path: '/withdrawals',
+    //   icon: <Wallet className="h-5 w-5 mr-2" />,
+    // },
+    // {
+    //   title: 'Settings',
+    //   path: '/settings',
+    //   icon: <SettingsIcon className="h-5 w-5 mr-2" />,
+    // },
   ];
 
   return (
