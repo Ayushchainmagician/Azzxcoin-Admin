@@ -193,10 +193,10 @@ const Layout = () => {
         {/* Header */}
         <header className="flex items-center justify-between h-16 px-4 border-b bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(true)}>
+            {/* <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu className="h-5 w-5" />
               <span className="sr-only">Open menu</span>
-            </Button>
+            </Button> */}
             <div className="ml-4 md:ml-0">
               <h2 className="text-lg font-medium text-gray-800 dark:text-white">
                 {menuItems.find((item) => item.path === location.pathname)?.title || 'Dashboard'}

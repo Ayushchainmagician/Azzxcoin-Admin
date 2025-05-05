@@ -1,11 +1,4 @@
-import type React from 'react';
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  type ReactNode,
-} from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,6 +7,11 @@ interface User {
   name: string;
   email: string;
   role: 'admin';
+}
+
+interface LoginResponse {
+  token: string;
+  user: User;
 }
 
 interface AuthContextType {
@@ -34,26 +32,28 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate(); // 👈 add this
+  const navigate = useNavigate();
 
   const verifyToken = async (token: string): Promise<User> => {
-    console.log('this is verifyToken')
-    const res = await axios.get('https://harvesthubai.com/api/admin/verify-token', {
+    console.log('Verifying token');
+    const res = await axios.get<User>('http://localhost:5000/api/admin/verify-token', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    // console.log("this is the response from verify token", res);
 
-    if (res.status!==200) {
-      throw new Error('Invalid credentials');
+    if (res.status !== 200) {
+      throw new Error('Invalid token');
     }
 
-    const data = await res.data;
-    return data as User;
+    return res.data;
   };
 
   useEffect(() => {
@@ -73,28 +73,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    console.log('heeeeeeeee')
+    console.log('Initiating login');
     setIsLoading(true);
     try {
-      const res = await axios.post('https://harvesthubai.com/api/admin/login', { email, password }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      // console.log("this is admin login res", res);
+      const res = await axios.post<LoginResponse>(
+        'http://localhost:5000/api/admin/login',
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-      if (res.status!==200) {
+      if (res.status !== 200) {
         throw new Error('Invalid credentials');
       }
 
-      const data = await res.data;
-
-      // Save token and user info
-      localStorage.setItem('auth_token', data.token);
-      setUser(res.data.user);
-
-      // 👇 Redirect after successful login
+      const { token, user } = res.data;
+      localStorage.setItem('auth_token', token);
+      setUser(user);
       navigate('/dashboard');
+    } catch (error) {
+      throw new Error('Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -103,9 +104,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     localStorage.removeItem('auth_token');
     setUser(null);
+    navigate('/login');
   };
 
-  const value = {
+  const value: AuthContextType = {
     user,
     isAuthenticated: !!user,
     isLoading,
@@ -120,10 +122,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+interface WithAuthProps {}
 
 // HOC for protected routes
-export const withAuth = (Component: React.ComponentType) => {
-  return () => {
+export const withAuth = <P extends object>(Component: React.ComponentType<P>) => {
+  const WithAuth: React.FC<P & WithAuthProps> = (props) => {
     const { isAuthenticated, isLoading } = useAuth();
     const navigate = useNavigate();
 
@@ -133,8 +136,12 @@ export const withAuth = (Component: React.ComponentType) => {
       }
     }, [isAuthenticated, isLoading, navigate]);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
 
-    return isAuthenticated ? <Component /> : null;
+    return isAuthenticated ? <Component {...props} /> : null;
   };
+
+  return WithAuth;
 };

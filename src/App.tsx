@@ -11,8 +11,8 @@ import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
+    
     <AuthProvider>
-   
         <Toaster position="top-center" richColors />
         <Routes>
           <Route path="/login" element={<Login />} />
