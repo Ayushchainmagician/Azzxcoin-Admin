@@ -71,7 +71,7 @@ const UsersPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get<ApiResponse>(
-          `http://localhost:5000/api/admin/userlist?page=${page}&limit=10&search=${search}`
+          `https://dashboard.azzxcoin.com/api/admin/userlist?page=${page}&limit=10&search=${search}`
         );
         // console.log("this is response", res.data);
         if (page === 1) {
@@ -161,7 +161,7 @@ const UsersPage: React.FC = () => {
                       <TableCell className="font-medium">
                         {user.name}
                       </TableCell>
-                      <TableCell className="font-mono text-xs truncate max-w-[100px]">
+                      <TableCell className="font-mono text-xs truncate max-w-[100px]" title={user.assignedWalletAddress}>
                         {user.assignedWalletAddress}
                       </TableCell>
                       <TableCell className="hidden md:table-cell font-mono text-xs text-center">

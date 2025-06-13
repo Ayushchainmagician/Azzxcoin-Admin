@@ -64,14 +64,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get<UserStats>('http://localhost:5000/api/admin/userstats');
+        const res = await axios.get<UserStats>('https://dashboard.azzxcoin.com/api/admin/userstats');
         setUsers(res.data?.totalUsers || 0);
         setNewUsers(res.data?.todaysJoinings || 0);
         setDailyData(res.data.dailyUserData || []);
         setDailyBusiness(res.data.dailyBusinessData || []);
         setTotalTokens(res.data.totalBusiness || '0');
         setTodayTokens(res.data.todayBusiness || '0');
-        console.log("this is response", res.data);
+        // console.log("this is response", res.data);
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }

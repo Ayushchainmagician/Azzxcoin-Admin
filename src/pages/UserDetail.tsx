@@ -78,7 +78,7 @@ const UserDetailPage: React.FC = () => {
       if (userId) {
         try {
           const response = await axios.post<ApiResponse>(
-            "http://localhost:5000/api/admin/userdata",
+            "https://dashboard.azzxcoin.com/api/admin/userdata",
             { walletAddress: userId }
           );
           if (response.data) {
@@ -227,7 +227,7 @@ const UserDetailPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-gray-500" />
                   <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    {(parseFloat(totalTokenbuy) / 1e18).toFixed(2)}
+                    {(parseFloat(totalTokenbuy) / 1e18).toFixed(4)}
                   </p>
                 </div>
               </div>
@@ -236,7 +236,7 @@ const UserDetailPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-gray-500" />
                   <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    {(parseFloat(totalReferralincome) / 1e18).toFixed(2)}
+                    {(parseFloat(totalReferralincome) / 1e18).toFixed(4)}
                   </p>
                 </div>
               </div>

@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const verifyToken = async (token: string): Promise<User> => {
     console.log('Verifying token');
-    const res = await axios.get<User>('http://localhost:5000/api/admin/verify-token', {
+    const res = await axios.get<User>('https://dashboard.azzxcoin.com/api/admin/verify-token', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await axios.post<LoginResponse>(
-        'http://localhost:5000/api/admin/login',
+        'https://dashboard.azzxcoin.com/api/admin/login',
         { email, password },
         {
           headers: {
